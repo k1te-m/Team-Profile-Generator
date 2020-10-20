@@ -99,13 +99,14 @@ inquirer.prompt(questions).then(userData => {
       break;
     case "Engineer":
       inquirer.prompt(engineerQ).then(engineerData => {
-        let engineer = new Engineer(userData.name, userData.id, userData.email, engineerData.gitHub)
+        let engineer = new Engineer(userData.name, userData.id, userData.email, engineerData.gitHub);
         console.log(engineer);
       });
       break;
     case "Intern":
       inquirer.prompt(internQ).then(internData => {
-        console.log(internData);
+        let intern = new Intern(userData.name, userData.id, userData.email, internData.school);
+        console.log(intern);
       });
       break;
   }
