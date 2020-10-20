@@ -10,41 +10,6 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const whatRole = {
-  type: "list",
-  message: "Please select employee role.",
-  choices: ["Manager", "Engineer", "Intern"],
-  name: "role",
-};
-
-const questions = [
-  {
-    type: "input",
-    message: "What is your name?",
-    name: "name",
-  },
-  {
-    type: "input",
-    message: "What is your employee ID number?",
-    name: "id",
-  },
-  {
-    type: "input",
-    message: "What is your email address?",
-    name: "email",
-  },
-  {
-    type: "list",
-    message: "Please select employee role.",
-    choices: ["Manager", "Engineer", "Intern"],
-    name: "role",
-  }
-];
-
-inquirer.prompt(questions).then(function(response){
-    console.log(response);
-});
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -67,3 +32,80 @@ inquirer.prompt(questions).then(function(response){
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+// const whatRole = {
+//   type: "list",
+//   message: "Please select employee role.",
+//   choices: ["Manager", "Engineer", "Intern"],
+//   name: "role",
+// };
+
+const questions = [
+  {
+    type: "input",
+    message: "What is your name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is your employee ID number?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is your email address?",
+    name: "email",
+  },
+  {
+    type: "list",
+    message: "Please select employee role.",
+    choices: ["Manager", "Engineer", "Intern"],
+    name: "role",
+  },
+];
+
+const managerQ = [
+  {
+    type: "input",
+    message: "What is your current office number?",
+    name: "num",
+  },
+];
+
+const engineerQ = [
+  {
+    type: "input",
+    message: "What is your GitHub username?",
+    name: "Github",
+  },
+];
+
+const internQ = [
+  {
+    type: "input",
+    message: "What school are you affilated with?",
+    name: "school",
+  },
+];
+
+inquirer.prompt(questions).then(userData => {
+  console.log(userData);
+  switch (userData.role) {
+    case "Manager":
+      inquirer.prompt(managerQ).then(managerData => {
+          let manager = new Manager(userData.name, userData.id, userData.email, managerData.num);
+          console.log(manager);
+      });
+      break;
+    case "Engineer":
+      inquirer.prompt(engineerQ).then(engineerData => {
+        console.log(engineerData);
+      });
+      break;
+    case "Intern":
+      inquirer.prompt(internQ).then(internData => {
+        console.log(internData);
+      });
+      break;
+  }
+});
