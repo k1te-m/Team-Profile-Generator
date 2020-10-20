@@ -11,15 +11,15 @@ class Employee {
     }
 
     getId() {
-
+        return this.id;
     }
     
     getEmail() {
-
+        return this.email;
     }
 
     getRole() {
-
+        return "Employee";
     }
 }
 
