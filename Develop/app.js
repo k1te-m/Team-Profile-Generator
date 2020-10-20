@@ -88,26 +88,31 @@ const internQ = [
   },
 ];
 
+let employees = [];
+
+
+console.log("Please build out your team. One manager and one engineer are required.");
 inquirer.prompt(questions).then(userData => {
-  console.log(userData);
   switch (userData.role) {
     case "Manager":
       inquirer.prompt(managerQ).then(managerData => {
         let manager = new Manager(userData.name, userData.id, userData.email, managerData.num);
-        console.log(manager);
+        employees.push(manager);
       });
       break;
     case "Engineer":
       inquirer.prompt(engineerQ).then(engineerData => {
         let engineer = new Engineer(userData.name, userData.id, userData.email, engineerData.gitHub);
-        console.log(engineer);
+        employees.push(engineer);
       });
       break;
     case "Intern":
       inquirer.prompt(internQ).then(internData => {
         let intern = new Intern(userData.name, userData.id, userData.email, internData.school);
-        console.log(intern);
+        employees.push(intern);
       });
       break;
   }
+  
+  
 });
