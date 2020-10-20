@@ -76,7 +76,7 @@ const engineerQ = [
   {
     type: "input",
     message: "What is your GitHub username?",
-    name: "Github",
+    name: "gitHub",
   },
 ];
 
@@ -88,24 +88,31 @@ const internQ = [
   },
 ];
 
+let employees = [];
+
+
+console.log("Please build out your team. One manager and one engineer are required.");
 inquirer.prompt(questions).then(userData => {
-  console.log(userData);
   switch (userData.role) {
     case "Manager":
       inquirer.prompt(managerQ).then(managerData => {
-          let manager = new Manager(userData.name, userData.id, userData.email, managerData.num);
-          console.log(manager);
+        let manager = new Manager(userData.name, userData.id, userData.email, managerData.num);
+        employees.push(manager);
       });
       break;
     case "Engineer":
       inquirer.prompt(engineerQ).then(engineerData => {
-        console.log(engineerData);
+        let engineer = new Engineer(userData.name, userData.id, userData.email, engineerData.gitHub);
+        employees.push(engineer);
       });
       break;
     case "Intern":
       inquirer.prompt(internQ).then(internData => {
-        console.log(internData);
+        let intern = new Intern(userData.name, userData.id, userData.email, internData.school);
+        employees.push(intern);
       });
       break;
   }
+  
+  
 });
