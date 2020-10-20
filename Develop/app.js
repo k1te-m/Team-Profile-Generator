@@ -76,7 +76,7 @@ const engineerQ = [
   {
     type: "input",
     message: "What is your GitHub username?",
-    name: "Github",
+    name: "gitHub",
   },
 ];
 
@@ -93,13 +93,14 @@ inquirer.prompt(questions).then(userData => {
   switch (userData.role) {
     case "Manager":
       inquirer.prompt(managerQ).then(managerData => {
-          let manager = new Manager(userData.name, userData.id, userData.email, managerData.num);
-          console.log(manager);
+        let manager = new Manager(userData.name, userData.id, userData.email, managerData.num);
+        console.log(manager);
       });
       break;
     case "Engineer":
       inquirer.prompt(engineerQ).then(engineerData => {
-        console.log(engineerData);
+        let engineer = new Engineer(userData.name, userData.id, userData.email, engineerData.gitHub)
+        console.log(engineer);
       });
       break;
     case "Intern":
