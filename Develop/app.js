@@ -98,6 +98,23 @@ inquirer.prompt(questions).then(userData => {
       inquirer.prompt(managerQ).then(managerData => {
         let manager = new Manager(userData.name, userData.id, userData.email, managerData.num);
         employees.push(manager);
+        console.log("Please enter details for your next team member.");
+        inquirer.prompt(questions).then(userData => {
+          switch (userData.role) {
+            case "Engineer":
+              inquirer.prompt(engineerQ).then(engineerData => {
+                let engineer = new Engineer(userData.name, userData.id, userData.email, engineerData.gitHub);
+                employees.push(engineer);
+              });
+              break;
+            case "Intern":
+              inquirer.prompt(internQ).then(internData => {
+                let intern = new Intern(userData.name, userData.id, userData.email, internData.school);
+                employees.push(intern);
+              });
+              break;
+          } 
+      });
       });
       break;
     case "Engineer":
@@ -113,6 +130,6 @@ inquirer.prompt(questions).then(userData => {
       });
       break;
   }
-  
-  
 });
+
+console.log(employees);
