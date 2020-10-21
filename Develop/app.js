@@ -186,15 +186,15 @@ async function beginProfile() {
     managerData.num
   );
   team.push(manager);
-  console.log("Please enter Engineer details.");
-  const engineerData = await inquirer.prompt(engineerQ);
-  const engineer = new Engineer(
-    engineerData.name,
-    engineerData.id,
-    engineerData.email,
-    engineerData.gitHub
-  );
-  team.push(engineer);
+  // console.log("Please enter Engineer details.");
+  // const engineerData = await inquirer.prompt(engineerQ);
+  // const engineer = new Engineer(
+  //   engineerData.name,
+  //   engineerData.id,
+  //   engineerData.email,
+  //   engineerData.gitHub
+  // );
+  // team.push(engineer);
   addMore();
   
 
