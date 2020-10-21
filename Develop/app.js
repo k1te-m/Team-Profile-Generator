@@ -40,7 +40,7 @@ const render = require("./lib/htmlRenderer");
 //   name: "role",
 // };
 
-const questions = [
+const managerQ = [
   {
     type: "input",
     message: "What is your name?",
@@ -56,15 +56,13 @@ const questions = [
     message: "What is your email address?",
     name: "email",
   },
-  {
-    type: "list",
-    message: "Please select employee role.",
-    choices: ["Manager", "Engineer", "Intern"],
-    name: "role",
-  },
-];
-
-const managerQ = [
+  // {
+  //   type: "list",
+  //   message: "Please select employee role.",
+  //   choices: ["Manager", "Engineer", "Intern"],
+  //   name: "role",
+  //   default: "Manager",
+  // },
   {
     type: "input",
     message: "What is your current office number?",
@@ -72,10 +70,42 @@ const managerQ = [
   },
 ];
 
+const whatRole = [
+  { 
+    type: "list",
+    message: "Please select employee role.",
+    choices: ["Engineer", "Intern"],
+    name: "role",
+  }
+];
+
+// const managerQ = [
+//   {
+//     type: "input",
+//     message: "What is your current office number?",
+//     name: "num",
+//   },
+// ];
+
 const engineerQ = [
   {
     type: "input",
-    message: "What is your GitHub username?",
+    message: "What is the engineer's name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is their employee ID number?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is their email address?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What is their GitHub username?",
     name: "gitHub",
   },
 ];
@@ -83,53 +113,131 @@ const engineerQ = [
 const internQ = [
   {
     type: "input",
-    message: "What school are you affilated with?",
+    message: "What is the intern's name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is their employee ID number?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is their email address?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What school are they affilated with?",
     name: "school",
   },
 ];
 
 let employees = [];
 
-
-console.log("Please build out your team. One manager and one engineer are required.");
-inquirer.prompt(questions).then(userData => {
-  switch (userData.role) {
-    case "Manager":
-      inquirer.prompt(managerQ).then(managerData => {
-        let manager = new Manager(userData.name, userData.id, userData.email, managerData.num);
-        employees.push(manager);
-        console.log("Please enter details for your next team member.");
-        inquirer.prompt(questions).then(userData => {
-          switch (userData.role) {
-            case "Engineer":
-              inquirer.prompt(engineerQ).then(engineerData => {
-                let engineer = new Engineer(userData.name, userData.id, userData.email, engineerData.gitHub);
-                employees.push(engineer);
-              });
-              break;
-            case "Intern":
-              inquirer.prompt(internQ).then(internData => {
-                let intern = new Intern(userData.name, userData.id, userData.email, internData.school);
-                employees.push(intern);
-              });
-              break;
-          } 
-      });
-      });
-      break;
-    case "Engineer":
-      inquirer.prompt(engineerQ).then(engineerData => {
-        let engineer = new Engineer(userData.name, userData.id, userData.email, engineerData.gitHub);
-        employees.push(engineer);
-      });
-      break;
-    case "Intern":
-      inquirer.prompt(internQ).then(internData => {
-        let intern = new Intern(userData.name, userData.id, userData.email, internData.school);
-        employees.push(intern);
-      });
-      break;
-  }
-});
-
-console.log(employees);
+console.log(
+  "Hello PM! Please build out your team."
+);
+inquirer.prompt(managerQ).then(managerData => {
+  let manager = new Manager(
+    managerData.name, 
+    managerData.id, 
+    managerData.email, 
+    managerData.num
+  );
+  employees.push(manager);
+  inquirer.prompt(whatRole).then((response) => {
+    switch (response.role) {
+      case "Engineer":
+        inquirer.prompt(engineerQ).then((engineerData) => {
+          let engineer = new Engineer(
+            engineerData.name,
+            engineerData.id,
+            engineerData.email,
+            engineerData.gitHub
+          )
+          employees.push(engineer);
+          console.log(employees);
+        })
+        break;
+      case "Intern":
+        inquirer.prompt(internQ).then((internData) => {
+          let intern = new Intern(
+            internData.name,
+            internData.id,
+            internData.email,
+            internData.school
+          )
+          employees.push(intern);
+          console.log(employees);
+        })
+        break;
+    }
+  })
+  })
+// inquirer.prompt(questions).then((userData) => {
+//   switch (userData.role) {
+//     case "Manager":
+//       inquirer.prompt(managerQ).then((managerData) => {
+//         let manager = new Manager(
+//           userData.name,
+//           userData.id,
+//           userData.email,
+//           managerData.num
+//         );
+//         employees.push(manager);
+//         console.log("Please enter details for your next team member.");
+//         inquirer.prompt(questions).then((userData) => {
+//           switch (userData.role) {
+//             case "Engineer":
+//               inquirer.prompt(engineerQ).then((engineerData) => {
+//                 let engineer = new Engineer(
+//                   userData.name,
+//                   userData.id,
+//                   userData.email,
+//                   engineerData.gitHub
+//                 );
+//                 employees.push(engineer);
+//                 console.log(employees);
+//               });
+//               break;
+//             case "Intern":
+//               inquirer.prompt(internQ).then((internData) => {
+//                 let intern = new Intern(
+//                   userData.name,
+//                   userData.id,
+//                   userData.email,
+//                   internData.school
+//                 );
+//                 employees.push(intern);
+//                 console.log(employees);
+//               });
+//               break;
+//           }
+//         });
+//       });
+//       break;
+//     case "Engineer":
+//       inquirer.prompt(engineerQ).then((engineerData) => {
+//         let engineer = new Engineer(
+//           userData.name,
+//           userData.id,
+//           userData.email,
+//           engineerData.gitHub
+//         );
+//         employees.push(engineer);
+//       });
+//       break;
+//     case "Intern":
+//       inquirer.prompt(internQ).then((internData) => {
+//         let intern = new Intern(
+//           userData.name,
+//           userData.id,
+//           userData.email,
+//           internData.school
+//         );
+//         employees.push(intern);
+//       });
+//       break;
+//   }
+// });
