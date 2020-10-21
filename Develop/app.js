@@ -10,31 +10,6 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
-
 // Initial inquirer prompt questions for the manager
 const managerQ = [
   {
@@ -59,6 +34,7 @@ const managerQ = [
   },
 ];
 
+//Prompt for selecting role of new team members
 const whatRole = [
   {
     type: "list",
@@ -68,6 +44,7 @@ const whatRole = [
   },
 ];
 
+//Prompts for new engineer
 const engineerQ = [
   {
     type: "input",
@@ -91,6 +68,7 @@ const engineerQ = [
   },
 ];
 
+//Prompts for a new intern
 const internQ = [
   {
     type: "input",
@@ -114,6 +92,7 @@ const internQ = [
   },
 ];
 
+//Prompt for additional team members
 const moreMembers = [
   {
     type: "confirm",
@@ -122,8 +101,10 @@ const moreMembers = [
   },
 ];
 
+// Array to contain all employees
 let team = [];
 
+//async function that prompts user if they would like to add more members, if yes add member funciton is called and user is further prompted, if no the team array is passed through the render function which is then written to the team.html defined in outputPath
 async function addMore(){
   const addToTeam = await inquirer.prompt(moreMembers);
   if (addToTeam.more === true){
@@ -135,6 +116,7 @@ async function addMore(){
   }
 }
 
+// Async function for adding an additional member to the team. Called when user selects yes in the previous addMore function. Prompts different questions based on the role of the new member. User inputs are then pushed to the team array and the add more function is called keeping the user in a loop of adding users until they select no
 async function addMember() {
   const memberRole = await inquirer.prompt(whatRole);
     switch (memberRole.role) {
@@ -166,7 +148,7 @@ async function addMember() {
   };
 
 
-
+//Async function that prompts the intial manager questions, answers are pushed to the team array and addMore function is called
 async function beginProfile() {
   console.log("Welcome Manager! Please build out your team.");
   const managerData = await inquirer.prompt(managerQ);
@@ -180,6 +162,7 @@ async function beginProfile() {
   addMore();
 }
 
+//function to initialize the application
 function init() {
   beginProfile();
 }
