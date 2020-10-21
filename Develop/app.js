@@ -64,12 +64,12 @@ const managerQ = [
 ];
 
 const whatRole = [
-  { 
+  {
     type: "list",
     message: "Please select employee role for your next team member.",
     choices: ["Engineer", "Intern"],
     name: "role",
-  }
+  },
 ];
 
 const engineerQ = [
@@ -118,49 +118,70 @@ const internQ = [
   },
 ];
 
+const moreMembers = [
+  {
+    type: "list",
+    message: "Would you like to add additional team members?",
+    choices: ["Yes", "No"],
+    name: "more"
+  }
+]
+
 let team = [];
 
-console.log(
-  "Welcome Manager! Please build out your team."
-);
-inquirer.prompt(managerQ).then(managerData => {
+console.log("Welcome Manager! Please build out your team.");
+inquirer.prompt(managerQ).then((managerData) => {
   const manager = new Manager(
-    managerData.name, 
-    managerData.id, 
-    managerData.email, 
+    managerData.name,
+    managerData.id,
+    managerData.email,
     managerData.num
   );
   team.push(manager);
-  inquirer.prompt(whatRole).then((response) => {
-    switch (response.role) {
-      case "Engineer":
-        inquirer.prompt(engineerQ).then((engineerData) => {
-          const engineer = new Engineer(
-            engineerData.name,
-            engineerData.id,
-            engineerData.email,
-            engineerData.gitHub
-          )
-          team.push(engineer);
-          console.log(team);
-          render(team);
-        })
-        break;
-      case "Intern":
-        inquirer.prompt(internQ).then((internData) => {
-          const intern = new Intern(
-            internData.name,
-            internData.id,
-            internData.email,
-            internData.school
-          )
-          team.push(intern);
-          console.log(team);
-        })
-        break;
-    }
-  })
-  })
-
-
-
+  console.log("Please enter Engineer details.");
+  inquirer.prompt(engineerQ).then((engineerData) => {
+    const engineer = new Engineer(
+      engineerData.name,
+      engineerData.id,
+      engineerData.email,
+      engineerData.gitHub
+    );
+    team.push(engineer);
+    console.log(team);
+    inquirer.prompt(moreMembers).then((yn) =>{
+      if (yn.more === "Yes") {
+        inquirer.prompt(whatRole).then((response) => {
+          switch (response.role) {
+            case "Engineer":
+              inquirer.prompt(engineerQ).then((engineerData) => {
+                const engineer = new Engineer(
+                  engineerData.name,
+                  engineerData.id,
+                  engineerData.email,
+                  engineerData.gitHub
+                );
+                team.push(engineer);
+                console.log(team);
+                render(team);
+              });
+              break;
+            case "Intern":
+              inquirer.prompt(internQ).then((internData) => {
+                const intern = new Intern(
+                  internData.name,
+                  internData.id,
+                  internData.email,
+                  internData.school
+                );
+                team.push(intern);
+                console.log(team);
+              });
+              break;
+          }
+        });
+      } else {
+        render(team);
+      }
+    })
+  });
+});
