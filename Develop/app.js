@@ -137,7 +137,9 @@ async function addMore(){
   if (addToTeam.more === true){
     addMember();
   } else {
-    render(team);
+    fs.writeFile(outputPath, render(team), "utf8", function(error){
+      if (error) throw error;
+    });
   }
 }
 
