@@ -126,43 +126,51 @@ const moreMembers = [
   },
 ];
 
-
-
 let team = [];
-let moreToAdd;
 
 function addMember() {
   inquirer.prompt(whatRole).then((response) => {
     switch (response.role) {
-    case "Engineer":
-      inquirer.prompt(engineerQ).then((engineerData) => {
-        const engineer = new Engineer(
-          engineerData.name,
-          engineerData.id,
-          engineerData.email,
-          engineerData.gitHub
-        );
-        team.push(engineer);
-        console.log(team);
-        render(team);
-      });
-      break;
-    case "Intern":
-      inquirer.prompt(internQ).then((internData) => {
-        const intern = new Intern(
-          internData.name,
-          internData.id,
-          internData.email,
-          internData.school
-        );
-        team.push(intern);
-        console.log(team);
-        render(team);
-      });
-      break;
-  }
+      case "Engineer":
+        inquirer.prompt(engineerQ).then((engineerData) => {
+          const engineer = new Engineer(
+            engineerData.name,
+            engineerData.id,
+            engineerData.email,
+            engineerData.gitHub
+          );
+          team.push(engineer);
+          console.log(team);
+          render(team);
+        });
+        break;
+      case "Intern":
+        inquirer.prompt(internQ).then((internData) => {
+          const intern = new Intern(
+            internData.name,
+            internData.id,
+            internData.email,
+            internData.school
+          );
+          team.push(intern);
+          console.log(team);
+          render(team);
+        });
+        break;
+    }
   });
 }
+
+// async function memberLoop() {
+//   const addMoreMembers = await inquirer.prompt(moreMembers);
+//   if (addMoreMembers.more === true) {
+//     console.log("Preparing to add next team member.");
+//     addMember();
+//   } else {
+//     render(team);
+//   }
+//   memberLoop();
+// }
 
 async function init() {
   console.log("Welcome Manager! Please build out your team.");
@@ -181,29 +189,18 @@ async function init() {
     engineerData.id,
     engineerData.email,
     engineerData.gitHub
-  )
+  );
   team.push(engineer);
-  const addMoreMembers = await inquirer.prompt(moreMembers);
-  console.log(addMoreMembers);
-  
-  if (addMoreMembers.more === true) {
-    console.log("Preparing to add next team member.");
-    moreToAdd = true;
-  } else {
-    render(team);
-    moreToAdd = false;
-  };
 
-  while (moreToAdd === true) {
-    addMember();
-  }
-
-
-
+  // if (addMoreMembers.more === true) {
+  //   console.log("Preparing to add next team member.");
+  //   addMember();
+  // } else {
+  //   render(team);
+  // };
 }
 
 init();
-
 
 // Code written without async/await
 
