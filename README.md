@@ -35,7 +35,7 @@
 
   *Application tests and instructions for them:*
 
-  Testing info below
+  ![tests](./Assets/tests)
 
   ## License
 
