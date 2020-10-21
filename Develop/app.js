@@ -35,13 +35,7 @@ const render = require("./lib/htmlRenderer");
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
-// const whatRole = {
-//   type: "list",
-//   message: "Please select employee role.",
-//   choices: ["Manager", "Engineer", "Intern"],
-//   name: "role",
-// };
-
+// Initial inquirer prompt questions for the manager
 const managerQ = [
   {
     type: "input",
@@ -129,11 +123,9 @@ const moreMembers = [
 ];
 
 let team = [];
-let moreTeam = false;
 
 async function addMore(){
   const addToTeam = await inquirer.prompt(moreMembers);
-  console.log(addToTeam.more);
   if (addToTeam.more === true){
     addMember();
   } else {
@@ -145,7 +137,6 @@ async function addMore(){
 
 async function addMember() {
   const memberRole = await inquirer.prompt(whatRole);
-  console.log(memberRole.role);
     switch (memberRole.role) {
       case "Engineer":
         inquirer.prompt(engineerQ).then((engineerData) => {
@@ -186,48 +177,7 @@ async function beginProfile() {
     managerData.num
   );
   team.push(manager);
-  // console.log("Please enter Engineer details.");
-  // const engineerData = await inquirer.prompt(engineerQ);
-  // const engineer = new Engineer(
-  //   engineerData.name,
-  //   engineerData.id,
-  //   engineerData.email,
-  //   engineerData.gitHub
-  // );
-  // team.push(engineer);
   addMore();
-  
-
-  
- 
-  
-  // const addMoreMembers = await inquirer.prompt(moreMembers);
-  // checkAddMembers(addMoreMembers);
-
-  // const addMore = await inquirer.prompt(moreMembers);
-  // if (addMore.more === true) {
-  //   const newMember = await inquirer.prompt(whatRole);
-  //   if (newMember.role === "Engineer") {
-  //     const newEngineerData = await inquirer.prompt(engineerQ);
-  //     const newEngineer = new Engineer(
-  //       newEngineerData.name,
-  //       newEngineerData.id,
-  //       newEngineerData.email,
-  //       newEngineerData.gitHub
-  //     );
-  //     team.push(newEngineer);
-  //   } else {
-  //     const newInternData = await inquirer.prompt(internQ);
-  //     const newIntern = new Intern(
-  //       newInternData.name,
-  //       newInternData.id,
-  //       newInternData.email,
-  //       newInternData.school
-  //     );
-  //     team.push(newIntern);
-  //   }
-  // }
-
 }
 
 function init() {
@@ -241,7 +191,7 @@ init();
 
 
 
-// Code written without async/await
+// Initial Code written without async/await
 
 // console.log("Welcome Manager! Please build out your team.");
 // inquirer.prompt(managerQ).then((managerData) => {
