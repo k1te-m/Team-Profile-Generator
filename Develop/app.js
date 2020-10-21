@@ -120,17 +120,61 @@ const internQ = [
 
 const moreMembers = [
   {
-    type: "list",
+    type: "confirm",
     message: "Would you like to add additional team members?",
-    choices: ["Yes", "No"],
-    name: "more"
-  }
-]
+    name: "more",
+  },
+];
 
 let team = [];
 
-console.log("Welcome Manager! Please build out your team.");
-inquirer.prompt(managerQ).then((managerData) => {
+function addMember() {
+  inquirer.prompt(whatRole).then((response) => {
+    switch (response.role) {
+      case "Engineer":
+        inquirer.prompt(engineerQ).then((engineerData) => {
+          const engineer = new Engineer(
+            engineerData.name,
+            engineerData.id,
+            engineerData.email,
+            engineerData.gitHub
+          );
+          team.push(engineer);
+          console.log(team);
+          render(team);
+        });
+        break;
+      case "Intern":
+        inquirer.prompt(internQ).then((internData) => {
+          const intern = new Intern(
+            internData.name,
+            internData.id,
+            internData.email,
+            internData.school
+          );
+          team.push(intern);
+          console.log(team);
+          render(team);
+        });
+        break;
+    }
+  });
+}
+
+// async function memberLoop() {
+//   const addMoreMembers = await inquirer.prompt(moreMembers);
+//   if (addMoreMembers.more === true) {
+//     console.log("Preparing to add next team member.");
+//     addMember();
+//   } else {
+//     render(team);
+//   }
+//   memberLoop();
+// }
+
+async function init() {
+  console.log("Welcome Manager! Please build out your team.");
+  const managerData = await inquirer.prompt(managerQ);
   const manager = new Manager(
     managerData.name,
     managerData.id,
@@ -139,49 +183,83 @@ inquirer.prompt(managerQ).then((managerData) => {
   );
   team.push(manager);
   console.log("Please enter Engineer details.");
-  inquirer.prompt(engineerQ).then((engineerData) => {
-    const engineer = new Engineer(
-      engineerData.name,
-      engineerData.id,
-      engineerData.email,
-      engineerData.gitHub
-    );
-    team.push(engineer);
-    console.log(team);
-    inquirer.prompt(moreMembers).then((yn) =>{
-      if (yn.more === "Yes") {
-        inquirer.prompt(whatRole).then((response) => {
-          switch (response.role) {
-            case "Engineer":
-              inquirer.prompt(engineerQ).then((engineerData) => {
-                const engineer = new Engineer(
-                  engineerData.name,
-                  engineerData.id,
-                  engineerData.email,
-                  engineerData.gitHub
-                );
-                team.push(engineer);
-                console.log(team);
-                render(team);
-              });
-              break;
-            case "Intern":
-              inquirer.prompt(internQ).then((internData) => {
-                const intern = new Intern(
-                  internData.name,
-                  internData.id,
-                  internData.email,
-                  internData.school
-                );
-                team.push(intern);
-                console.log(team);
-              });
-              break;
-          }
-        });
-      } else {
-        render(team);
-      }
-    })
-  });
-});
+  const engineerData = await inquirer.prompt(engineerQ);
+  const engineer = new Engineer(
+    engineerData.name,
+    engineerData.id,
+    engineerData.email,
+    engineerData.gitHub
+  );
+  team.push(engineer);
+
+  // if (addMoreMembers.more === true) {
+  //   console.log("Preparing to add next team member.");
+  //   addMember();
+  // } else {
+  //   render(team);
+  // };
+}
+
+init();
+
+// Code written without async/await
+
+// console.log("Welcome Manager! Please build out your team.");
+// inquirer.prompt(managerQ).then((managerData) => {
+//   const manager = new Manager(
+//     managerData.name,
+//     managerData.id,
+//     managerData.email,
+//     managerData.num
+//   );
+//   team.push(manager);
+//   console.log("Please enter Engineer details.");
+//   inquirer.prompt(engineerQ).then((engineerData) => {
+//     const engineer = new Engineer(
+//       engineerData.name,
+//       engineerData.id,
+//       engineerData.email,
+//       engineerData.gitHub
+//     );
+//     team.push(engineer);
+//     console.log(team);
+//     inquirer.prompt(moreMembers).then((yn) => {
+//       if (yn.more === "Yes") {
+//         inquirer.prompt(whatRole).then((response) => {
+//           switch (response.role) {
+//             case "Engineer":
+//               inquirer.prompt(engineerQ).then((engineerData) => {
+//                 const engineer = new Engineer(
+//                   engineerData.name,
+//                   engineerData.id,
+//                   engineerData.email,
+//                   engineerData.gitHub
+//                 );
+//                 team.push(engineer);
+//                 console.log(team);
+//                 render(team);
+//               });
+//               break;
+//             case "Intern":
+//               inquirer.prompt(internQ).then((internData) => {
+//                 const intern = new Intern(
+//                   internData.name,
+//                   internData.id,
+//                   internData.email,
+//                   internData.school
+//                 );
+//                 team.push(intern);
+//                 console.log(team);
+//                 render(team);
+//               });
+//               break;
+//           }
+//         });
+//       } else {
+//         addMoreMembers = false;
+//         console.log(addMoreMembers);
+//         render(team);
+//       }
+//     });
+//   });
+// });
