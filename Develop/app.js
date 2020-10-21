@@ -40,7 +40,7 @@ const render = require("./lib/htmlRenderer");
 //   name: "role",
 // };
 
-const questions = [
+const managerQ = [
   {
     type: "input",
     message: "What is your name?",
@@ -57,25 +57,40 @@ const questions = [
     name: "email",
   },
   {
-    type: "list",
-    message: "Please select employee role.",
-    choices: ["Manager", "Engineer", "Intern"],
-    name: "role",
-  },
-];
-
-const managerQ = [
-  {
     type: "input",
     message: "What is your current office number?",
     name: "num",
   },
 ];
 
+const whatRole = [
+  {
+    type: "list",
+    message: "Please select employee role for your next team member.",
+    choices: ["Engineer", "Intern"],
+    name: "role",
+  },
+];
+
 const engineerQ = [
   {
     type: "input",
-    message: "What is your GitHub username?",
+    message: "What is the engineer's name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is their employee ID number?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is their email address?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What is their GitHub username?",
     name: "gitHub",
   },
 ];
@@ -83,36 +98,90 @@ const engineerQ = [
 const internQ = [
   {
     type: "input",
-    message: "What school are you affilated with?",
+    message: "What is the intern's name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is their employee ID number?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is their email address?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What school are they affilated with?",
     name: "school",
   },
 ];
 
-let employees = [];
-
-
-console.log("Please build out your team. One manager and one engineer are required.");
-inquirer.prompt(questions).then(userData => {
-  switch (userData.role) {
-    case "Manager":
-      inquirer.prompt(managerQ).then(managerData => {
-        let manager = new Manager(userData.name, userData.id, userData.email, managerData.num);
-        employees.push(manager);
-      });
-      break;
-    case "Engineer":
-      inquirer.prompt(engineerQ).then(engineerData => {
-        let engineer = new Engineer(userData.name, userData.id, userData.email, engineerData.gitHub);
-        employees.push(engineer);
-      });
-      break;
-    case "Intern":
-      inquirer.prompt(internQ).then(internData => {
-        let intern = new Intern(userData.name, userData.id, userData.email, internData.school);
-        employees.push(intern);
-      });
-      break;
+const moreMembers = [
+  {
+    type: "list",
+    message: "Would you like to add additional team members?",
+    choices: ["Yes", "No"],
+    name: "more"
   }
-  
-  
+]
+
+let team = [];
+
+console.log("Welcome Manager! Please build out your team.");
+inquirer.prompt(managerQ).then((managerData) => {
+  const manager = new Manager(
+    managerData.name,
+    managerData.id,
+    managerData.email,
+    managerData.num
+  );
+  team.push(manager);
+  console.log("Please enter Engineer details.");
+  inquirer.prompt(engineerQ).then((engineerData) => {
+    const engineer = new Engineer(
+      engineerData.name,
+      engineerData.id,
+      engineerData.email,
+      engineerData.gitHub
+    );
+    team.push(engineer);
+    console.log(team);
+    inquirer.prompt(moreMembers).then((yn) =>{
+      if (yn.more === "Yes") {
+        inquirer.prompt(whatRole).then((response) => {
+          switch (response.role) {
+            case "Engineer":
+              inquirer.prompt(engineerQ).then((engineerData) => {
+                const engineer = new Engineer(
+                  engineerData.name,
+                  engineerData.id,
+                  engineerData.email,
+                  engineerData.gitHub
+                );
+                team.push(engineer);
+                console.log(team);
+                render(team);
+              });
+              break;
+            case "Intern":
+              inquirer.prompt(internQ).then((internData) => {
+                const intern = new Intern(
+                  internData.name,
+                  internData.id,
+                  internData.email,
+                  internData.school
+                );
+                team.push(intern);
+                console.log(team);
+              });
+              break;
+          }
+        });
+      } else {
+        render(team);
+      }
+    })
+  });
 });
