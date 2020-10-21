@@ -10,6 +10,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -121,16 +123,28 @@ const internQ = [
 const moreMembers = [
   {
     type: "confirm",
-    message: "Would you like to add additional team members?",
+    message: "Would you like to add an additional team member?",
     name: "more",
   },
 ];
 
 let team = [];
+let moreTeam = false;
 
-function addMember() {
-  inquirer.prompt(whatRole).then((response) => {
-    switch (response.role) {
+async function addMore(){
+  const addToTeam = await inquirer.prompt(moreMembers);
+  console.log(addToTeam.more);
+  if (addToTeam.more === true){
+    addMember();
+  } else {
+    render(team);
+  }
+}
+
+async function addMember() {
+  const memberRole = await inquirer.prompt(whatRole);
+  console.log(memberRole.role);
+    switch (memberRole.role) {
       case "Engineer":
         inquirer.prompt(engineerQ).then((engineerData) => {
           const engineer = new Engineer(
@@ -140,8 +154,7 @@ function addMember() {
             engineerData.gitHub
           );
           team.push(engineer);
-          console.log(team);
-          render(team);
+          addMore();
         });
         break;
       case "Intern":
@@ -153,26 +166,15 @@ function addMember() {
             internData.school
           );
           team.push(intern);
-          console.log(team);
-          render(team);
+          addMore();
         });
         break;
     }
-  });
-}
+  };
 
-// async function memberLoop() {
-//   const addMoreMembers = await inquirer.prompt(moreMembers);
-//   if (addMoreMembers.more === true) {
-//     console.log("Preparing to add next team member.");
-//     addMember();
-//   } else {
-//     render(team);
-//   }
-//   memberLoop();
-// }
 
-async function init() {
+
+async function beginProfile() {
   console.log("Welcome Manager! Please build out your team.");
   const managerData = await inquirer.prompt(managerQ);
   const manager = new Manager(
@@ -191,16 +193,51 @@ async function init() {
     engineerData.gitHub
   );
   team.push(engineer);
+  addMore();
+  
 
-  // if (addMoreMembers.more === true) {
-  //   console.log("Preparing to add next team member.");
-  //   addMember();
-  // } else {
-  //   render(team);
-  // };
+  
+ 
+  
+  // const addMoreMembers = await inquirer.prompt(moreMembers);
+  // checkAddMembers(addMoreMembers);
+
+  // const addMore = await inquirer.prompt(moreMembers);
+  // if (addMore.more === true) {
+  //   const newMember = await inquirer.prompt(whatRole);
+  //   if (newMember.role === "Engineer") {
+  //     const newEngineerData = await inquirer.prompt(engineerQ);
+  //     const newEngineer = new Engineer(
+  //       newEngineerData.name,
+  //       newEngineerData.id,
+  //       newEngineerData.email,
+  //       newEngineerData.gitHub
+  //     );
+  //     team.push(newEngineer);
+  //   } else {
+  //     const newInternData = await inquirer.prompt(internQ);
+  //     const newIntern = new Intern(
+  //       newInternData.name,
+  //       newInternData.id,
+  //       newInternData.email,
+  //       newInternData.school
+  //     );
+  //     team.push(newIntern);
+  //   }
+  // }
+
+}
+
+function init() {
+  beginProfile();
 }
 
 init();
+
+
+
+
+
 
 // Code written without async/await
 
