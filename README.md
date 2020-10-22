@@ -17,7 +17,7 @@
     
   *Steps required to install package:* 
     
-  Application requires inquirer to run. This has been included in the package.json and npm i may be utilized. 
+  Application requires inquirer to run. This has been included in the package.json and "npm i" may be utilized. 
 
   ## Usage
 
@@ -35,7 +35,9 @@
 
   *Application tests and instructions for them:*
 
-  ![tests](./Assets/tests)
+  All application tests can be found in the test folder and can be ran through the terminal utilizing the command "npm run test". 
+
+  ![tests](./Assets/tests.PNG)
 
   ## License
 
