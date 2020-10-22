@@ -37,9 +37,9 @@
 
   All application tests can be found in the test folder and can be ran through the terminal utilizing the command "npm run test". 
 
-  ![testsgif](./Assets/Team-Profile-Generator-Tests.gif)
-  
   ![tests](./Assets/tests.PNG)
+
+  ![testsgif](./Assets/Team-Profile-Generator-Tests.gif)
 
   ## License
 
