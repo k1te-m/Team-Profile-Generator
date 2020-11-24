@@ -3,7 +3,7 @@
 
   ![GitHub](https://img.shields.io/github/license/k1te-m/Team-Profile-Generator)![GitHub top language](https://img.shields.io/github/languages/top/k1te-m/Team-Profile-Generator)
 
-  ## Descripton
+  ## Description
   A CLI that prompts a user for team manager information and any additional team members. User can input any number of team members, and it may be a mix of engineers and interns. When finished building the team, the application creates a HTML file that displays the team roster based on the information provided by the user. 
 
   ## Table of Contents
